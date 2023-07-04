@@ -1,0 +1,17 @@
+spring: 
+  datasource:
+    username: daycares
+    password: daycares
+    url: jdbc:mysql://localhost:3306/daycares
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+    
+  sql: 
+    init:
+      mode: always
+            
+     
