@@ -34,7 +34,7 @@ public class Daycare {
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @OneToMany(mappedBy = "daycare", cascade = CascadeType.ALL)
-  private Set<Student> student = new HashSet<>();
+  private Set<Student> students = new HashSet<>();
   
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
@@ -46,6 +46,8 @@ public class Daycare {
   
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  @ManyToMany(mappedBy = "daycares")
+  @ManyToMany(mappedBy = "daycare")
   private Set<Teacher> teachers = new HashSet<>();
+
+
 }
