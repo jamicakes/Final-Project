@@ -40,6 +40,10 @@ public class DaycareData {
   private Set<String> amenities = new HashSet<>();
   private Set<TeacherResponse> teachers = new HashSet<>();
 
+//  public void setTeachers(Set<TeacherResponse> teachers) {
+//    this.teachers = teachers;
+//  }
+  
   @Data
   static class StudentResponse {
     private Long studentId;

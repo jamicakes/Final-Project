@@ -73,15 +73,34 @@ public class DaycareControler {
     
   }
   
+  
+  //************* TEACHER START *****************
+  
   @PostMapping("/daycare/{daycareId}/teacher")
   @ResponseStatus(code = HttpStatus.CREATED)
   public TeacherData saveTeacher(@PathVariable Long daycareId,
       @RequestBody TeacherData teacherData) {
     
     log.info("Creating teacher profile {} for Daycare with ID= {}", daycareId, teacherData);
-    
+
 return daycareService.saveTeacher(daycareId,teacherData);
   }
+  
+  @GetMapping("/daycare/{daycareId}/teacher")
+  public List<TeacherData> retrieveAllTeachers() {
+    log.info("Retrieve all teachers called.");
+    return daycareService.retrieveAllTeachers(); 
+  }
+  
+  @GetMapping("/daycare/{daycareId}/teacher/{teacherId}")
+  public TeacherData retrieveTeacherByID(@PathVariable Long teacherId) {
+    log.info("Retrieving teacher with ID{}", teacherId); 
+    return daycareService.retrieveTeacherById(teacherId); 
+  }
+  
+  
+  
+  //************* STUDENT START *****************
   
   @PostMapping("/daycare/{daycareId}/student")
   @ResponseStatus(code = HttpStatus.CREATED)
@@ -93,6 +112,18 @@ return daycareService.saveTeacher(daycareId,teacherData);
     return daycareService.saveStudent(daycareId, studentData);
   }
   
+  @GetMapping("/daycare/{daycareId}/student")
+  public List<StudentData> retrieveAllStudents() {
+    log.info("Retrieve all students called");
+    return daycareService.retrieveAllStudents();
+  }
+  
+  @GetMapping("/daycare/{daycareId}/student/{studentId}")
+
+  public StudentData retrieveStudentById(@PathVariable Long studentId) {
+    log.info("Retrieving student with ID{}", studentId);
+    return daycareService.retrieveStudentById(studentId);
+  }
   
   
 } // main 

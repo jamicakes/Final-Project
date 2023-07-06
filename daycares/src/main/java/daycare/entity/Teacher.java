@@ -37,7 +37,7 @@ public class Teacher {
   
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.PERSIST)
   @JoinTable(name = "daycare_teacher",
     joinColumns = @JoinColumn(name = "teacher_id"),
     inverseJoinColumns = @JoinColumn(name = "daycare_id"))

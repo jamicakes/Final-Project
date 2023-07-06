@@ -164,6 +164,26 @@ public class DaycareService {
         () -> new NoSuchElementException("Teacher with ID=" + teacherId + " does not exist."));
   }
   
+  @Transactional(readOnly = true)
+  public List<TeacherData> retrieveAllTeachers() {
+    List<Teacher> teachers = teacherDao.findAll();
+    List<TeacherData> response = new LinkedList<>();
+
+    for (Teacher teacher : teachers) {
+      response.add(new TeacherData(teacher));
+    }
+
+    return response;
+  }
+  
+  @Transactional(readOnly = true)
+  public TeacherData retrieveTeacherById(Long teacherId) {
+ Teacher teacher = findTeacherById(teacherId); 
+ return new TeacherData(teacher); 
+  }
+  
+
+  
   // ************ START STUDENT ****************************
 
   @Transactional(readOnly = false)
@@ -201,4 +221,24 @@ public class DaycareService {
     return studentDao.findById(studentId)
         .orElseThrow(() -> new NoSuchElementException("Student with ID=" + studentId + " does not exist."));
   }
+
+  @Transactional(readOnly = true)
+  public List<StudentData> retrieveAllStudents() {
+   List<Student> students = studentDao.findAll();
+   List<StudentData> response = new LinkedList<>();
+   
+   for (Student student : students) {
+     response.add(new StudentData(student));
+   }
+   return response;
+  }
+
+  @Transactional(readOnly = true)
+  public StudentData retrieveStudentById(Long studentId) {
+   Student student = findStudentById(studentId); 
+   return new StudentData(student); 
+  }
+
+
+
 }
