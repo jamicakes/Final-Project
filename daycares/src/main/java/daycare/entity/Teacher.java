@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
@@ -37,14 +38,11 @@ public class Teacher {
   
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  @ManyToMany(cascade = CascadeType.PERSIST)
-  @JoinTable(name = "daycare_teacher",
-    joinColumns = @JoinColumn(name = "teacher_id"),
-    inverseJoinColumns = @JoinColumn(name = "daycare_id"))
-  private Set<Daycare> daycare = new HashSet<>();
-
-
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "daycare_id")
+  private Daycare daycare;
   
+ 
   
   
 }

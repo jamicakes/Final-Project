@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Daycare {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  
+
   private Long daycareId;
   private String daycareName;
   private String daycareAddress;
@@ -29,24 +29,33 @@ public class Daycare {
   private String daycareState;
   private String daycareZip;
   private String daycarePhone;
-      
-  
+
+
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  @OneToMany(mappedBy = "daycare", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "daycare", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Student> students = new HashSet<>();
-  
+
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @ManyToMany(cascade = CascadeType.PERSIST)
-  @JoinTable(name = "daycare_amenity",
-  joinColumns = @JoinColumn(name = "daycare_id"),
-  inverseJoinColumns = @JoinColumn(name = "amenity_id"))
-    private Set<Amenity> amenities = new HashSet<>();
+  @JoinTable(name = "daycare_amenity", joinColumns = @JoinColumn(name = "daycare_id"),
+      inverseJoinColumns = @JoinColumn(name = "amenity_id"))
+  private Set<Amenity> amenities = new HashSet<>();
+
+//  @EqualsAndHashCode.Exclude
+//  @ToString.Exclude
+//  @OneToMany(mappedBy = "daycare", cascade = CascadeType.ALL, orphanRemoval = true)
+//  @JoinTable(
+//    name = "daycare_teacher",
+//    joinColumns = @JoinColumn(name = "daycare_id"),
+//    inverseJoinColumns = @JoinColumn(name = "teacher_id")
+//  )
+//  private Set<Teacher> teachers = new HashSet<>();
   
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  @ManyToMany(mappedBy = "daycare")
+  @OneToMany(mappedBy = "daycare", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<Teacher> teachers = new HashSet<>();
 
 

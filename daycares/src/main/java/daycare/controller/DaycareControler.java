@@ -86,7 +86,7 @@ public class DaycareControler {
 return daycareService.saveTeacher(daycareId,teacherData);
   }
   
-  @GetMapping("/daycare/{daycareId}/teacher")
+  @GetMapping("/daycare/teacher")
   public List<TeacherData> retrieveAllTeachers() {
     log.info("Retrieve all teachers called.");
     return daycareService.retrieveAllTeachers(); 
@@ -102,15 +102,26 @@ return daycareService.saveTeacher(daycareId,teacherData);
   
   //************* STUDENT START *****************
   
-  @PostMapping("/daycare/{daycareId}/student")
+  @PostMapping("/daycare/{daycareId}/teacher/{teacherId}/student")
   @ResponseStatus(code = HttpStatus.CREATED)
-  public StudentData saveStudent(@PathVariable Long daycareId,
+  public StudentData saveStudent(@PathVariable Long daycareId, @PathVariable Long teacherId,
       @RequestBody StudentData studentData) {
 
     log.info("Creating student profile {} for Daycare with ID= {}", daycareId, studentData);
 
-    return daycareService.saveStudent(daycareId, studentData);
+    return daycareService.saveStudent(daycareId, studentData, teacherId);
   }
+
+ // PUT daycare/daycareid/student/studentid/teacherId
+  
+  @PutMapping("/daycare/student/{studentId}/{teacherId}")
+  public StudentData addTeacherToStudentId(@PathVariable Long studentId,
+      @PathVariable Long teacherId) {
+    
+    return daycareService.addTeacherToStudentId(studentId, teacherId); 
+  }
+  
+ 
   
   @GetMapping("/daycare/{daycareId}/student")
   public List<StudentData> retrieveAllStudents() {
@@ -125,5 +136,12 @@ return daycareService.saveTeacher(daycareId,teacherData);
     return daycareService.retrieveStudentById(studentId);
   }
   
+ //------------------ *********** TEACHER/STUDENT **********************
+  
+//  @PostMapping("/{teacherId}/{studentId}")
+//  public StudentData joinStudentAndTeacher(@PathVariable Long teacherId, Long studentId) {
+//    log.info("Displaying teacher ID= {} and student ID= {} relationships.", teacherId, studentId);
+//    return daycareService.joinStudentAndTeacher(teacherId, studentId); 
+//  }
   
 } // main 

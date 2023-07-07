@@ -18,7 +18,7 @@ public class TeacherData {
   private String teacherLastName;
   private String teacherEmail;
   private Set<StudentResponse> students = new HashSet<>();
-  private Set<DaycareResponse> daycares = new HashSet<>();
+  private DaycareResponse daycare; 
   
   public TeacherData(Teacher teacher) {
     teacherId = teacher.getTeacherId();
@@ -30,9 +30,7 @@ public class TeacherData {
       students.add(new StudentResponse(student)); 
     }
     
-    for (Daycare daycare : teacher.getDaycare()) {
-      daycares.add(new DaycareResponse(daycare));
-    }
+    
   }
   
   @Data

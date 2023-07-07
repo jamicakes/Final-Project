@@ -32,16 +32,14 @@ public class Student {
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   @ManyToOne
-  @JoinColumn(name = "daycare_id")
+  @JoinColumn(name = "daycare_id", nullable = false)
   private Daycare daycare;
+
+ // public void setTeacher(Teacher teacher) {
+    // TODO Auto-generated method stub
+     // }
 
   
 
 
 }
-//     Set<Amenity> amenities = amenityDao.findAllByAmenityIn(daycareData.getAmenities());
-
-//for (Amenity amenity : amenities) {
-//  amenity.getDaycares().add(daycare);
-//  daycare.getAmenities().add(amenity);
-//}

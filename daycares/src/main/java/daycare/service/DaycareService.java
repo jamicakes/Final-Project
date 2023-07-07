@@ -11,6 +11,7 @@ import daycare.entity.Amenity;
 import daycare.entity.Daycare;
 import daycare.entity.Student;
 import daycare.entity.Teacher;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -102,6 +103,9 @@ public class DaycareService {
   public void deleteDaycareById(Long daycareId) {
     Daycare daycare = findDaycareById(daycareId);
     daycareDao.delete(daycare);
+  
+
+  
 
   } // end daycare save info / delete info / find by info 
   
@@ -109,22 +113,13 @@ public class DaycareService {
 
   // ******TEACHER START ********* -----------------------------------
   
-  @Transactional(readOnly = false)
   public TeacherData saveTeacher(Long daycareId, TeacherData teacherData) {
     Daycare daycare = findDaycareById(daycareId);
 
     Teacher teacher = findOrCreateTeacher(teacherData.getTeacherId());
     setTeacherFields(teacher, teacherData);
 
-    daycare.getTeachers().add(teacher);
-    teacher.getDaycare().add(daycare);
-
-//    for (StudentData studentData : teacherData.getStudents() {
-//      Student student = findOrCreateStudent(studentData.getStudentId());
-//      setStudentFields(student, studentData);
-//      student.getTeachers().add(teacher);
-//      teacher.getStudents().add(student);
-//    }
+    teacher.setDaycare(daycare);
 
     Teacher dbTeacher = teacherDao.save(teacher);
     return new TeacherData(dbTeacher);
@@ -187,21 +182,23 @@ public class DaycareService {
   // ************ START STUDENT ****************************
 
   @Transactional(readOnly = false)
-  public StudentData saveStudent(Long daycareId, StudentData studentData) {
+  public StudentData saveStudent(Long daycareId, StudentData studentData, Long teacherId) {
     Daycare daycare = findDaycareById(daycareId); 
+    Teacher teacher = findTeacherById(teacherId);
     
-   // Set<Teacher> teachers =  teacherDao.findAllByTeacherIn(studentData.getTeachers());
-    
+
+        
     Student student = findOrCreateStudent(studentData.getStudentId());
     setStudentFields(student, studentData); 
     
     student.setDaycare(daycare);
     daycare.getStudents().add(student); 
-    
-//    for(Teacher teacher : teachers) {
-//      teacher.getStudents().add(student);
-//      student.getTeachers().add(teacher);
-//    }
+    Set<Teacher> teachers = new HashSet<>();
+    teachers.add(teacher); 
+    student.setTeachers(teachers);
+    teacher.getStudents().add(student);
+
+
     
     Student dbStudent = studentDao.save(student); 
     return new StudentData(dbStudent); 
@@ -237,6 +234,25 @@ public class DaycareService {
   public StudentData retrieveStudentById(Long studentId) {
    Student student = findStudentById(studentId); 
    return new StudentData(student); 
+  }
+
+  public StudentData joinStudentAndTeacher(Long teacherId, Long studentId) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public StudentData addTeacherToStudentId(Long studentId, Long teacherId) {
+
+    Teacher teacher = findTeacherById(teacherId);
+    Student student = findOrCreateStudent(studentId);
+    // setStudentFields(student, studentData);
+    Set<Teacher> teachers = new HashSet<>();
+    teachers.add(teacher); 
+    student.setTeachers(teachers);
+    teacher.getStudents().add(student);
+    Student dbStudent = studentDao.save(student);
+    return new StudentData(dbStudent);
+
   }
 
 
